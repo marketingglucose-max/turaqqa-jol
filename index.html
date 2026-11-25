@@ -1,4 +1,6 @@
 <!doctype html><html lang="kk"><meta charset="utf-8"><meta name="theme-color" content="#172923"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Тұраққа жол</title>
+<link rel="manifest" href="manifest.webmanifest"><link rel="icon" type="image/png" sizes="32x32" href="icons/icon-32.png"><link rel="apple-touch-icon" href="icons/icon-180.png">
+<meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black"><meta name="apple-mobile-web-app-title" content="Тұраққа жол">
 <style>
 *{box-sizing:border-box}body{margin:0;background:#e9ece6;color:#192c27;font:15px "Inter",system-ui,sans-serif}main{max-width:590px;margin:auto;padding:15px}header,nav,.row,footer{display:flex;align-items:center;justify-content:space-between;gap:8px}h1{font-size:clamp(27px,6vw,39px);letter-spacing:-.065em;margin:3px 0}b.wallet{background:#233832;color:#ffdf86;border-radius:20px;padding:8px 14px}nav{margin:12px 0;background:#d7dfd7;padding:4px;border-radius:12px}button{font:inherit;cursor:pointer;border:0;border-radius:9px;padding:10px 13px;font-weight:650;background:#fff;color:#20372d}nav button{flex:1;background:transparent}nav [aria-current=true],.primary{background:#204b3b;color:white}button:disabled{opacity:.48;cursor:default}h2{font-size:19px;margin:9px 0}p{margin:6px 0 10px;line-height:1.4}.stage{display:block;width:min(100%,54svh);height:auto;margin:auto;background:#394248;border:5px solid #9ba79a;border-radius:16px;touch-action:none}footer{margin-top:10px}footer button{flex:1}#levels,#shop{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}#levels button,#shop article{border-radius:12px;background:#fafbf6;padding:12px;text-align:left}#levels button.active{box-shadow:inset 0 0 0 2px #237653}small{display:block;color:#52675b;font-size:12px;margin-top:5px}article canvas{width:100%;display:block}article button{margin-top:8px;width:100%;font-size:13px;background:#e1e9da}#shop article{padding:8px}#msg{min-height:42px}#notice{color:#385946}section[hidden]{display:none}@media(max-width:400px){main{padding:10px}#shop{grid-template-columns:repeat(2,1fr)}}
 
@@ -15,9 +17,12 @@ section{min-height:0}#play:not([hidden]){flex:1;display:flex;flex-direction:colu
 @keyframes pulse{from{transform:translate(-50%,-50%) scale(.35)}to{transform:translate(-50%,-50%) scale(2.6);opacity:0}}
 @keyframes spray{from{transform:translate(-50%,-50%) scale(1)}to{transform:translate(var(--dx),var(--dy)) rotate(var(--spin)) scale(.36);opacity:0}}
 @keyframes paper{0%{transform:translate(0,0) rotate(0)}40%{transform:translate(var(--peakx),var(--peaky)) rotate(var(--spin))}100%{transform:translate(var(--dx),var(--dy)) rotateX(200deg) rotate(var(--endspin));opacity:0}}
-button:active:enabled{transform:scale(.97)}@media(prefers-reduced-motion:reduce){.spark,.pulse{display:none}button:active:enabled{transform:none}}</style><main><header><h1>Тұраққа жол</h1><div class="row"><button id="sound" aria-label="Дыбысты қосу немесе өшіру"></button><b class="wallet" id="wallet"></b></div></header><nav><button data-view="play">Ойын</button><button data-view="map">Деңгейлер</button><button data-view="garage">Гараж</button></nav>
+button:active:enabled{transform:scale(.97)}@media(prefers-reduced-motion:reduce){.spark,.pulse{display:none}button:active:enabled{transform:none}}
+html,body{overscroll-behavior:none}body{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;-webkit-tap-highlight-color:transparent}button{touch-action:manipulation}
+#install{background:#204b3b;color:#fff;white-space:nowrap}#wallet{white-space:nowrap}header:has(#install:not([hidden])) h1{font-size:clamp(14px,5.4cqw,38px)}header:has(#install:not([hidden])) #wallet{padding:8px 10px}#install[hidden]{display:none}
+#guide{border:0;border-radius:16px;padding:18px;width:min(88vw,360px);color:#192c27;background:#fbfcf8}#guide::backdrop{background:#0b1a15b3}#guide ol{padding-left:22px;margin:10px 0 16px;line-height:1.55;font-size:15px}#guide button{width:100%;font-size:16px;padding:12px}</style><main><header><h1>Тұраққа жол</h1><div class="row"><button id="install" hidden>📲 Орнату</button><button id="sound" aria-label="Дыбысты қосу немесе өшіру"></button><b class="wallet" id="wallet"></b></div></header><nav><button data-view="play">Ойын</button><button data-view="map">Деңгейлер</button><button data-view="garage">Гараж</button></nav>
 <section id="play"><div class="row"><h2 id="title"></h2><strong id="loot"></strong></div><p id="msg" role="status"></p><canvas class="stage" width="1080" height="1350" aria-label="Көліктерге жол сызатын ойын алаңы"></canvas><footer><button id="reset">Қайта бастау</button><button id="go" class="primary">Жүргізу ▶</button></footer></section>
-<section id="map" hidden><h2>Деңгейлер</h2><p id="progress"></p><div id="levels"></div></section><section id="garage" hidden><h2>Көлік гаражы</h2><canvas id="preview" width="540" height="190"></canvas><p id="notice" role="status"></p><div id="shop"></div><p><small>3D модельдер · Kenney · CC0 · <a href="https://github.com/Papyszoo/CC0-Public-Domain-Models" target="_blank" rel="noopener">GitHub</a></small></p></section></main><div id="effects" aria-hidden="true"></div>
+<section id="map" hidden><h2>Деңгейлер</h2><p id="progress"></p><div id="levels"></div></section><section id="garage" hidden><h2>Көлік гаражы</h2><canvas id="preview" width="540" height="190"></canvas><p id="notice" role="status"></p><div id="shop"></div><p><small>3D модельдер · Kenney · CC0 · <a href="https://github.com/Papyszoo/CC0-Public-Domain-Models" target="_blank" rel="noopener">GitHub</a></small></p></section></main><dialog id="guide" aria-labelledby="guideTitle"><h2 id="guideTitle">Телефонға орнату</h2><ol></ol><button class="primary">Түсінікті</button></dialog><div id="effects" aria-hidden="true"></div>
 <script>
 const $=s=>document.querySelector(s),board=$('.stage'),ctx=board.getContext('2d');
 const racers=[
@@ -338,4 +343,28 @@ function advance(dt){if(traffic&&!traffic.off){traffic.x+=traffic.dir*.15*dt;if(
  if(cars.every(c=>c.step===c.path.length)){mode='won';engineOff();burst('win');sound('win');save.money+=earned;if(!save.done.includes(index))save.done.push(index);persist();$('#msg').textContent='Барлық көлік тұраққа жетті! Әмияныңа '+earned+' тиын қосылды.'}}
 function tick(t){let dt=Math.min(40,t-last);last=t;while(dt>0&&mode==='run'){let s=Math.min(8,dt);advance(s);dt-=s}if(impact)settle(dt/1000);draw();controls();if(mode==='run'||(impact&&impact.time<2.5))frame=requestAnimationFrame(tick)}
 $('#reset').onclick=start;$('#go').onclick=()=>{if(mode==='won'){if(index+1>unlockedThrough()||index===layouts.length-1){tab('map');return}index++;start()}else if(mode==='lost')start();else if(mode==='draw'&&cars.every(c=>c.ready)){wake();engineOn();mode='run';last=performance.now();$('#msg').textContent='Көліктер жолға шықты…';controls();frame=requestAnimationFrame(tick)}};persist();start();tab('play');
+// Home screen app: offline copy plus an install button.
+(()=>{
+ const button=$('#install'),guide=$('#guide'),ua=navigator.userAgent;
+ const installed=matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;
+ const ios=/iPhone|iPad|iPod/.test(ua)||(/Macintosh/.test(ua)&&navigator.maxTouchPoints>1),android=/Android/.test(ua);
+ const embedded=/Instagram|FBAN|FBAV|TikTok|musical_ly|BytedanceWebview|Telegram|; wv\)/i.test(ua);
+ let offer=null;
+ if('serviceWorker' in navigator&&/^https?:/.test(location.protocol))navigator.serviceWorker.register('sw.js').catch(()=>{});
+ if(installed){navigator.storage?.persist?.().catch(()=>{});return}
+ button.hidden=!(ios||android);
+ addEventListener('beforeinstallprompt',e=>{e.preventDefault();offer=e;button.hidden=false});
+ addEventListener('appinstalled',()=>{offer=null;button.hidden=true;if(guide.open)guide.close()});
+ function steps(){
+  if(embedded)return ['Мәзірді (⋯ немесе ⋮) бас',ios?'«Safari-де ашу» дегенді таңда':'«Браузерде ашу» / «Chrome-да ашу» дегенді таңда','Ашылған бетте «📲 Орнату» батырмасын қайта бас'];
+  if(ios)return ['Браузердің «Бөлісу» батырмасын (⬆️) бас','«На экран Домой» / «Add to Home Screen» дегенді таңда','«Добавить» / «Add» дегенді бас'];
+  return ['Chrome мәзірін (⋮) бас','«Установить приложение» / «Добавить на главный экран» дегенді таңда','«Установить» дегенді бас']
+ }
+ button.onclick=async()=>{
+  if(offer){const e=offer;offer=null;e.prompt();await e.userChoice.catch(()=>{});return}
+  $('#guide ol').replaceChildren(...steps().map(t=>{const li=document.createElement('li');li.textContent=t;return li}));
+  guide.showModal()
+ };
+ $('#guide button').onclick=()=>guide.close();
+})();
 </script></html>
